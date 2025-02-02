@@ -53,7 +53,7 @@ async function main() {
         data: {
           ...user,
           password: hashedPassword,
-          emailVerified: new Date(), // Demo users are pre-verified
+          emailVerified: new Date(),
         }
       })
     })

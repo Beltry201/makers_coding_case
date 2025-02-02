@@ -12,8 +12,7 @@ export const users = [
   {
     email: 'admin@makerstech.store',
     name: 'Admin User',
-    password: 'admin123', // Will be hashed in seed.ts
-    role: UserRole.ADMIN,
+    password: 'admin123',
     preferences: {
       preferredCategories: ['Laptops', 'Smartphones', 'Tablets'],
       priceRange: {
@@ -27,8 +26,7 @@ export const users = [
   {
     email: 'demo@makerstech.store',
     name: 'Demo User',
-    password: 'demo123', // Will be hashed in seed.ts
-    role: UserRole.USER,
+    password: 'demo123',
     preferences: {
       preferredCategories: ['Laptops', 'Smartphones'],
       priceRange: {
@@ -42,8 +40,7 @@ export const users = [
   {
     email: 'test@makerstech.store',
     name: 'Test User',
-    password: 'test123', // Will be hashed in seed.ts
-    role: UserRole.USER,
+    password: 'test123',
     preferences: {
       preferredCategories: ['Accessories', 'Tablets'],
       priceRange: {
