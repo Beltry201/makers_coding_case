@@ -3,6 +3,7 @@ import { categories } from './seedData/categories'
 import { products } from './seedData/products'
 import { users } from './seedData/users'
 import * as bcrypt from 'bcryptjs'
+import { productInteractions } from './seedData/productInteractions'
 
 const prisma = new PrismaClient()
 
@@ -13,6 +14,7 @@ async function main() {
   await prisma.chatMessage.deleteMany({})
   await prisma.user.deleteMany({})
   await prisma.metricLog.deleteMany({})
+  await prisma.productInteraction.deleteMany({})
 
   console.log('Deleted existing data')
 
@@ -61,6 +63,23 @@ async function main() {
   )
 
   console.log('Created users:', createdUsers.length)
+
+  // Create product interactions
+  if (createdUsers.length > 0 && createdProducts.length > 0) {
+    await Promise.all(
+      productInteractions.map(interaction => 
+        prisma.productInteraction.create({
+          data: {
+            ...interaction,
+            userId: createdUsers[0].id, // Or use appropriate user
+            productId: createdProducts[0].id, // Or use appropriate product
+          }
+        })
+      )
+    )
+  }
+
+  console.log('Created product interactions')
 }
 
 main()

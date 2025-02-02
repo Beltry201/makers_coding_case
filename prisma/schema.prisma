@@ -20,6 +20,8 @@ model Product {
   categoryId  String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  interactions ProductInteraction[]
+  popularity   Float              @default(0)
 }
 
 model Category {
@@ -62,6 +64,7 @@ model User {
   resetToken        String?   @unique
   resetTokenExpiry  DateTime?
   Session           Session[]
+  productInteractions ProductInteraction[]
 }
 
 model Session {
@@ -81,4 +84,17 @@ model MetricLog {
   metric    String // e.g., 'stock_level', 'sales', 'chat_interactions'
   value     Float
   timestamp DateTime @default(now())
+}
+
+model ProductInteraction {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  type      String   // 'view', 'purchase', 'wishlist'
+  timestamp DateTime @default(now())
+
+  @@index([userId])
+  @@index([productId])
 }

@@ -6,6 +6,7 @@ import { ChatInterface } from '@/components/Chat/ChatInterface'
 import { LoginModal } from '@/components/auth/LoginModal'
 import { SignupModal } from '@/components/auth/SignupModal'
 import { useSession } from '@/hooks/useSession'
+import { RecommendationsPanel } from '@/components/recommendations/RecommendationsPanel'
 
 const MainContainer = styled.main`
   max-width: 1200px;
@@ -52,6 +53,15 @@ const AuthButton = styled.button`
   }
 `
 
+const ContentContainer = styled.div`
+  display: flex;
+  gap: ${props => props.theme.spacing.large};
+`
+
+const ChatContainer = styled.div`
+  flex: 1;
+`
+
 export default function Home() {
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showSignupModal, setShowSignupModal] = useState(false)
@@ -79,7 +89,12 @@ export default function Home() {
           </AuthButtons>
         )}
       </Header>
-      <ChatInterface />
+      <ContentContainer>
+        <ChatContainer>
+          <ChatInterface />
+        </ChatContainer>
+        {user && <RecommendationsPanel />}
+      </ContentContainer>
       {showLoginModal && (
         <LoginModal
           onClose={() => setShowLoginModal(false)}
