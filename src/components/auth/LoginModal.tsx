@@ -24,7 +24,7 @@ const Modal = styled.div`
   position: relative;
 `
 
-const CloseButton = styled.button`
+export const CloseButton = styled.button`
   position: absolute;
   top: ${props => props.theme.spacing.medium};
   right: ${props => props.theme.spacing.medium};
@@ -38,7 +38,7 @@ const CloseButton = styled.button`
   }
 `
 
-const Title = styled.h2`
+export const Title = styled.h2`
   margin-bottom: ${props => props.theme.spacing.large};
   color: ${props => props.theme.colors.text};
   text-align: center;

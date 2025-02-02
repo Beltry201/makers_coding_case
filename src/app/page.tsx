@@ -4,6 +4,7 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import { ChatInterface } from '@/components/Chat/ChatInterface'
 import { LoginModal } from '@/components/auth/LoginModal'
+import { SignupModal } from '@/components/auth/SignupModal'
 import { useSession } from '@/hooks/useSession'
 
 const MainContainer = styled.main`
@@ -29,11 +30,16 @@ const Subtitle = styled.p`
   font-size: 1.1rem;
 `
 
-const AuthButton = styled.button`
+const AuthButtons = styled.div`
   position: absolute;
   right: 0;
   top: 50%;
   transform: translateY(-50%);
+  display: flex;
+  gap: ${props => props.theme.spacing.medium};
+`
+
+const AuthButton = styled.button`
   padding: ${props => props.theme.spacing.medium};
   background: ${props => props.theme.colors.primary};
   color: ${props => props.theme.colors.white};
@@ -48,6 +54,7 @@ const AuthButton = styled.button`
 
 export default function Home() {
   const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showSignupModal, setShowSignupModal] = useState(false)
   const { user, isLoading } = useSession()
 
   const handleLoginSuccess = () => {
@@ -62,15 +69,26 @@ export default function Home() {
         <Title>Makers Tech Store</Title>
         <Subtitle>Your AI-powered shopping assistant</Subtitle>
         {!isLoading && !user && (
-          <AuthButton onClick={() => setShowLoginModal(true)}>
-            Log In
-          </AuthButton>
+          <AuthButtons>
+            <AuthButton onClick={() => setShowSignupModal(true)}>
+              Sign Up
+            </AuthButton>
+            <AuthButton onClick={() => setShowLoginModal(true)}>
+              Log In
+            </AuthButton>
+          </AuthButtons>
         )}
       </Header>
       <ChatInterface />
       {showLoginModal && (
         <LoginModal
           onClose={() => setShowLoginModal(false)}
+          onSuccess={handleLoginSuccess}
+        />
+      )}
+      {showSignupModal && (
+        <SignupModal
+          onClose={() => setShowSignupModal(false)}
           onSuccess={handleLoginSuccess}
         />
       )}

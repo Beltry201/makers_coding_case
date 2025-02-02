@@ -13,6 +13,7 @@ export const users = [
     email: 'admin@makerstech.store',
     name: 'Admin User',
     password: 'admin123',
+    role: 'ADMIN',
     preferences: {
       preferredCategories: ['Laptops', 'Smartphones', 'Tablets'],
       priceRange: {
