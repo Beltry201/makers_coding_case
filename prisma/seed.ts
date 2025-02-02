@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, UserRole } from '@prisma/client'
 import { categories } from './seedData/categories'
 import { products } from './seedData/products'
 import { users } from './seedData/users'
@@ -54,6 +54,7 @@ async function main() {
           ...user,
           password: hashedPassword,
           emailVerified: new Date(),
+          role: user.role as UserRole,
         }
       })
     })

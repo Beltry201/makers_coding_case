@@ -62,7 +62,6 @@ export function ChatInterface() {
     setIsLoading(true)
 
     try {
-      // TODO: Implement API call to chat endpoint
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {

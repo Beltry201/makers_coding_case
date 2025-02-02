@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import ReactMarkdown from 'react-markdown'
 
 const MessageContainer = styled.div<{ $isAssistant: boolean }>`
   display: flex;
@@ -18,6 +19,29 @@ const MessageBubble = styled.div<{ $isAssistant: boolean }>`
     props.$isAssistant 
       ? props.theme.colors.text 
       : props.theme.colors.white};
+
+  /* Markdown styles */
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: ${props => props.theme.borderRadius};
+    margin: ${props => props.theme.spacing.small} 0;
+  }
+
+  p {
+    margin: ${props => props.theme.spacing.small} 0;
+    &:first-child { margin-top: 0; }
+    &:last-child { margin-bottom: 0; }
+  }
+
+  ul, ol {
+    margin: ${props => props.theme.spacing.small} 0;
+    padding-left: ${props => props.theme.spacing.large};
+  }
+
+  strong {
+    font-weight: 600;
+  }
 `
 
 interface ChatMessageProps {
@@ -33,7 +57,9 @@ export function ChatMessage({ message }: ChatMessageProps) {
   return (
     <MessageContainer $isAssistant={isAssistant}>
       <MessageBubble $isAssistant={isAssistant}>
-        {message.content}
+        <ReactMarkdown>
+          {message.content}
+        </ReactMarkdown>
       </MessageBubble>
     </MessageContainer>
   )

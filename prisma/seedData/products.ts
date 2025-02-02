@@ -12,7 +12,7 @@ export const products = [
       battery: 'Up to 22 hours'
     },
     stock: 15,
-    imageUrl: '/images/macbook-pro-16.jpg',
+    imageUrl: 'https://cdsassets.apple.com/live/SZLF0YNV/images/sp/111901_mbp16-gray.png',
     categoryName: 'Laptops'
   },
   {
@@ -28,7 +28,7 @@ export const products = [
       battery: 'Up to 12 hours'
     },
     stock: 23,
-    imageUrl: '/images/dell-xps-13.jpg',
+    imageUrl: 'https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/xps-notebooks/9345/media-gallery/touch/silver/notebook-xps-13-9345-t-silver-gallery-2.psd?fmt=png-alpha&pscan=auto&scl=1&hei=402&wid=679&qlt=100,1&resMode=sharp2&size=679,402&chrss=full',
     categoryName: 'Laptops'
   },
   {
@@ -44,7 +44,7 @@ export const products = [
       battery: 'Up to 23 hours'
     },
     stock: 42,
-    imageUrl: '/images/iphone-14-pro.jpg',
+    imageUrl: 'https://techify.es/wp-content/uploads/2024/06/iphone14pro-1.webp',
     categoryName: 'Smartphones'
   },
   {
@@ -60,7 +60,7 @@ export const products = [
       battery: '5000mAh'
     },
     stock: 30,
-    imageUrl: '/images/galaxy-s23-ultra.jpg',
+    imageUrl: 'https://www.movistar.es/estaticos/imagenes/terminales-moviles/ficha-445/samsung-galaxy-s23-ultra-verde-01.png',
     categoryName: 'Smartphones'
   },
   {
@@ -76,7 +76,7 @@ export const products = [
       battery: 'Up to 10 hours'
     },
     stock: 18,
-    imageUrl: '/images/ipad-pro.jpg',
+    imageUrl: 'https://cdsassets.apple.com/live/SZLF0YNV/images/sp/111979_ipad-pro-12-2018.png',
     categoryName: 'Tablets'
   }
 ] 
