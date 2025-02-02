@@ -14,16 +14,8 @@ export async function POST(req: Request) {
     const { email, password } = LoginSchema.parse(data)
 
     // Find user
-    const user = await prisma.user.findUnique({
-      where: { email },
-      select: {
-        id: true,
-        email: true,
-        password: true,
-        name: true,
-        preferences: true,
-        role: true,
-      }
+    const user = await prisma.user.findFirst({
+      where: { email }
     })
 
     if (!user) {
