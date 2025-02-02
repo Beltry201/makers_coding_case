@@ -1,7 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import styled from 'styled-components'
 import { ChatInterface } from '@/components/Chat/ChatInterface'
+import { LoginModal } from '@/components/auth/LoginModal'
+import { SignupModal } from '@/components/auth/SignupModal'
+import { useSession } from '@/hooks/useSession'
 
 const MainContainer = styled.main`
   max-width: 1200px;
@@ -12,6 +16,7 @@ const MainContainer = styled.main`
 const Header = styled.div`
   text-align: center;
   margin-bottom: ${props => props.theme.spacing.large};
+  position: relative;
 `
 
 const Title = styled.h1`
@@ -25,14 +30,68 @@ const Subtitle = styled.p`
   font-size: 1.1rem;
 `
 
+const AuthButtons = styled.div`
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: ${props => props.theme.spacing.medium};
+`
+
+const AuthButton = styled.button`
+  padding: ${props => props.theme.spacing.medium};
+  background: ${props => props.theme.colors.primary};
+  color: ${props => props.theme.colors.white};
+  border: none;
+  border-radius: ${props => props.theme.borderRadius};
+  cursor: pointer;
+  
+  &:hover {
+    opacity: 0.9;
+  }
+`
+
 export default function Home() {
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showSignupModal, setShowSignupModal] = useState(false)
+  const { user, isLoading } = useSession()
+
+  const handleLoginSuccess = () => {
+    setShowLoginModal(false)
+    // Optionally refresh the page or update state
+    window.location.reload()
+  }
+
   return (
     <MainContainer>
       <Header>
         <Title>Makers Tech Store</Title>
         <Subtitle>Your AI-powered shopping assistant</Subtitle>
+        {!isLoading && !user && (
+          <AuthButtons>
+            <AuthButton onClick={() => setShowSignupModal(true)}>
+              Sign Up
+            </AuthButton>
+            <AuthButton onClick={() => setShowLoginModal(true)}>
+              Log In
+            </AuthButton>
+          </AuthButtons>
+        )}
       </Header>
       <ChatInterface />
+      {showLoginModal && (
+        <LoginModal
+          onClose={() => setShowLoginModal(false)}
+          onSuccess={handleLoginSuccess}
+        />
+      )}
+      {showSignupModal && (
+        <SignupModal
+          onClose={() => setShowSignupModal(false)}
+          onSuccess={handleLoginSuccess}
+        />
+      )}
     </MainContainer>
   )
 }

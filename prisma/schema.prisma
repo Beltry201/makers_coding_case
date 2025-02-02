@@ -13,7 +13,7 @@ model Product {
   brand       String
   price       Decimal  @db.Decimal(10, 2)
   description String?  @db.Text
-  features    Json     // Stores product features as JSON
+  features    Json // Stores product features as JSON
   stock       Int      @default(0)
   imageUrl    String?
   category    Category @relation(fields: [categoryId], references: [id])
@@ -33,27 +33,52 @@ model Category {
 
 model ChatMessage {
   id        String   @id @default(cuid())
-  role      String   // 'user' or 'assistant'
+  role      String // 'user' or 'assistant'
   content   String   @db.Text
-  userId    String?  // Optional: link to user if authenticated
+  userId    String? // Optional: link to user if authenticated
   user      User?    @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
 }
 
-model User {
-  id            String        @id @default(cuid())
-  email         String        @unique
-  name          String?
-  preferences   Json?         // Stores user preferences for recommendations
-  chatHistory   ChatMessage[]
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+enum UserRole {
+  USER
+  ADMIN
 }
 
-// Optional: For admin dashboard metrics
+model User {
+  id          String        @id @default(cuid())
+  email       String        @unique
+  name        String?
+  password    String
+  role        UserRole      @default(USER)
+  preferences Json? // Will store structured preference data with priceRange: { min: float, max: float }
+  chatHistory ChatMessage[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  // Auth and verification
+  emailVerified     DateTime?
+  verificationToken String?   @unique
+  resetToken        String?   @unique
+  resetTokenExpiry  DateTime?
+  Session           Session[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expires   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
 model MetricLog {
   id        String   @id @default(cuid())
-  metric    String   // e.g., 'stock_level', 'sales', 'chat_interactions'
+  metric    String // e.g., 'stock_level', 'sales', 'chat_interactions'
   value     Float
   timestamp DateTime @default(now())
-} 
+}

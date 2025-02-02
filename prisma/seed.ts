@@ -1,6 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 import { categories } from './seedData/categories'
 import { products } from './seedData/products'
+import { users } from './seedData/users'
+import * as bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
@@ -43,20 +45,21 @@ async function main() {
 
   console.log('Created products:', createdProducts.length)
 
-  // Create a demo user
-  const demoUser = await prisma.user.create({
-    data: {
-      email: 'demo@makerstech.store',
-      name: 'Demo User',
-      preferences: {
-        preferredBrands: ['Apple', 'Dell', 'HP'],
-        preferredCategories: ['Laptops', 'Smartphones'],
-        priceRange: { min: 500, max: 2000 }
-      }
-    }
-  })
+  // Create demo users
+  const createdUsers = await Promise.all(
+    users.map(async (user) => {
+      const hashedPassword = await bcrypt.hash(user.password, 10)
+      return prisma.user.create({
+        data: {
+          ...user,
+          password: hashedPassword,
+          emailVerified: new Date(),
+        }
+      })
+    })
+  )
 
-  console.log('Created demo user')
+  console.log('Created users:', createdUsers.length)
 }
 
 main()
